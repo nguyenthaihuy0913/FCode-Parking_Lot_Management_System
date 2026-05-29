@@ -65,8 +65,11 @@ int main() {
                 saveAccounts(accounts, accountCount);
                 break;
             case 6: 
-                saveData(&parkingLot, "Data saved successfully.");
-                printf("Data saved successfully.\n");
+                if (saveData(&parkingLot) == 1) {
+                    printf(GREEN "Data saved successfully.\n" RESET);
+                } else {
+                    printf(RED "Failed to save data!\n" RESET);
+                }
                 break;
             case 7: 
                 viewDailyRevenue(&parkingLot);
@@ -99,9 +102,9 @@ int main() {
                 break;
 
             case 0:
-                saveData(&parkingLot, "Exiting program...");
+                saveData(&parkingLot);
                 saveAccounts(accounts, accountCount);
-                printf("Exit the program.\n");
+                printf(GREEN "Exiting program. Goodbye!\n" RESET);
                 break;
         }
 
