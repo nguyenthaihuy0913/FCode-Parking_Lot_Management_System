@@ -287,24 +287,26 @@ void listVehicles(ParkingLot *p) {
     }
 
     printf(LINE "----------------------------------------------------------------------\n");
-    
-    float ratio = (float)(count_in_yard * 100) / MAX_VEHICLES;
-    if (count_in_yard == 0) printf(RED "Empty!\n" RESET);
-    printf(LINE "------------------------------------------------------------------------------\n");
-    if (ratio < 80) 
+    if (choice == 1)
     {
-        printf(YELLOW "Total: %d/3636 " RESET "\n", count_in_yard);
-        printf(GREEN "Status: %0.2f%% Available\n" RESET, ratio);
-    }
-    else if (ratio < 100) 
-    {
-        printf(YELLOW "Total: %d/3636 " RESET "\n", count_in_yard);
-        printf(YELLOW "Status: %0.2f%% Nearly full\n" RESET, ratio);
-    }
-    else 
-    {
-        printf(YELLOW "Total: %d/3636 " RESET "\n", count_in_yard);
-        printf(RED "Status: %0.2f%% Full\n" RESET, ratio);
+        float ratio = (float)(count_in_yard * 100) / MAX_VEHICLES;
+        if (count_in_yard == 0) printf(RED "Empty!\n" RESET);
+        printf(LINE "------------------------------------------------------------------------------\n");
+        if (ratio < 80) 
+        {
+            printf(YELLOW "Total: %d/3636 " RESET "\n", count_in_yard);
+            printf(GREEN "Status: %0.2f%% Available\n" RESET, ratio);
+        }
+        else if (ratio < 100) 
+        {
+            printf(YELLOW "Total: %d/3636 " RESET "\n", count_in_yard);
+            printf(YELLOW "Status: %0.2f%% Nearly full\n" RESET, ratio);
+        }
+        else 
+        {
+            printf(YELLOW "Total: %d/3636 " RESET "\n", count_in_yard);
+            printf(RED "Status: %0.2f%% Full\n" RESET, ratio);
+        }
     }
 }
 
