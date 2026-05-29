@@ -1,0 +1,20 @@
+# Compiled Object files
+*.o
+*.obj
+
+# Executables
+*.exe
+*.out
+*.app
+
+# Dev-C++ specific files
+*.layout
+Makefile.win
+
+# Other IDE specific files (VSCode, CLion, vv.)
+.vscode/
+.idea/
+
+# Thư mục data (Bỏ comment nếu bạn muốn Git lờ đi sự thay đổi của các file data)
+# data/*.dat
+# data/*.txt
