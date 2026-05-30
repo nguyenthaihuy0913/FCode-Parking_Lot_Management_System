@@ -27,7 +27,5 @@ void listAccounts(Account accounts[], int accountCount);
 void listAccountsNPass(Account accounts[], int accountCount);
 int findAccountByUsername(Account accounts[], int accountCount, char username[]);
 
-void loadAccounts(Account accounts[], int *accountCount);
-void saveAccounts(Account accounts[], int accountCount);
 
 #endif

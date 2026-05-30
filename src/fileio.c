@@ -7,6 +7,8 @@
 #include "../include/utils.h"
 
 #define DATA_FILE "data/vehicles.dat"
+#define ACCOUNT_FILE "data/accounts.dat"
+
 
 void loadData(ParkingLot *p) {
     FILE *fp = fopen(DATA_FILE, "r");
@@ -91,4 +93,27 @@ void logDeletedVehicle(const Vehicle *v) {
             v->status);
 
     fclose(fp);
+}
+
+void loadAccounts(Account accounts[], int *accountCount) {
+    FILE *file = fopen(ACCOUNT_FILE, "rb");
+    if (file == NULL) {
+        *accountCount = 0;
+        return;
+    }
+    fread(accountCount, sizeof(int), 1, file);
+    fread(accounts, sizeof(Account), *accountCount, file);
+    fclose(file);
+}
+
+int saveAccounts(Account accounts[], int accountCount) {
+    FILE *file = fopen(ACCOUNT_FILE, "wb");
+    if (file == NULL) {
+        printf(RED "ERROR: Cannot open account file for saving.\n" RESET);
+        return 0; 
+    }
+    fwrite(&accountCount, sizeof(int), 1, file);
+    fwrite(accounts, sizeof(Account), accountCount, file);
+    fclose(file);
+    return 1; 
 }

@@ -2,6 +2,7 @@
 #include <string.h>
 #include "../include/auth.h"
 #include "../include/utils.h"
+#include "../include/fileio.h"
 
 void initDefaultAdmin(Account accounts[], int *accountCount) {
     if (*accountCount == 0) {
@@ -70,7 +71,11 @@ void updateOwnAccount(Account accounts[], int accountCount, int currentIndex) {
         if (isValidPassword(newPassword)) break;
     }
     strcpy(accounts[currentIndex].password, newPassword);
-    printf(GREEN "Password updated successfully.\n" RESET);
+    if (saveAccounts(accounts, accountCount) == 1) {
+        printf(GREEN "Password updated and saved successfully.\n" RESET);
+    } else {
+        printf(RED "Warning: Password changed on RAM but failed to save to disk!\n" RESET);
+    }
 }
 int findAccountByUsername(Account accounts[], int accountCount, char username[]) {
     for (int i = 0; i < accountCount; i++) {
@@ -106,7 +111,12 @@ void createStaffAccount(Account accounts[], int *accountCount) {
     strcpy(accounts[*accountCount].password, password);
     accounts[*accountCount].role = ROLE_STAFF;
     (*accountCount)++;
-    printf(GREEN "Staff account created successfully.\n" RESET);
+
+    if (saveAccounts(accounts, *accountCount) == 1) {
+        printf(GREEN "Staff account created and saved successfully.\n" RESET);
+    } else {
+        printf(RED "Warning: Account created on RAM but failed to save to disk!\n" RESET);
+    }
 }
 void updateUserRole(Account accounts[], int accountCount) {
     char username[30];
@@ -124,6 +134,9 @@ void updateUserRole(Account accounts[], int accountCount) {
     }else {
       accounts[index].role = ROLE_ADMIN;
       printf(GREEN "Account has been promoted to Admin.\n" RESET);
+    }
+    if (saveAccounts(accounts, accountCount) == 0) {
+        printf(RED "Warning: Role changed on RAM but failed to save to disk!\n" RESET);
     }
 }
 void listAccounts(Account accounts[], int accountCount) {
@@ -144,24 +157,4 @@ void listAccountsNPass(Account accounts[], int accountCount) {
         else printf( "Role: STAFF\n" );
         printf(LINE "-----------------------------------------------------------------------------\n" RESET);
     }
-}
-void saveAccounts(Account accounts[], int accountCount) {
-    FILE *file = fopen("data/accounts.dat", "wb");
-    if (file == NULL) {
-        printf(RED "Cannot open account file.\n" RESET);
-        return;
-    }
-    fwrite(&accountCount, sizeof(int), 1, file);
-    fwrite(accounts, sizeof(Account), accountCount, file);
-    fclose(file);
-}
-void loadAccounts(Account accounts[], int *accountCount) {
-    FILE *file = fopen("data/accounts.dat", "rb");
-    if (file == NULL) {
-        *accountCount = 0;
-        return;
-    }
-    fread(accountCount, sizeof(int), 1, file);
-    fread(accounts, sizeof(Account), *accountCount, file);
-    fclose(file);
 }
